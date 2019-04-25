@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block content %}
+<link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
+<style type="text/css">
+    label {
+        padding: 0 1em;
+        text-align: center;
+    }
+	
+    #asterisk {
+        display: inline;
+        color: red; 
+	} 
+</style>
+
+<script type="text/javascript">
+  function showDiv() {
+   document.getElementById('acceptedQuiz').style.display = "block";
+   document.getElementById('hideDiv').style.display = "none";
+}
+</script>
+<!-- this is a comment -->
+<div id="acceptedQuiz">
+
+	<nav id="navbarColor" class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a style="float: right;" class="navbar-brand" href="{{ url_for('login') }}">
+                <img src="/static/img/cs2GoIcon.png" style="width: 17.5%; float: left;">
+                &nbsp;&nbsp;CS2Go
+				</a>
+			</div>
+			
+	</nav>
+	
+
+<div id="bebrasBackground" style="width: 100%; margin-top: -30px;">
+    <div style="width: 700px;" class="modal-dialog">
+    <div class="container" style="width: 700px;">
+      <h2 style="color: black; float: left;">Personal Form </h2>
+      <div class="progress" style="width: 60%; float: right; margin-top: 23px;">
+    <div class="progress-bar" style="width: 40%">2/5</div>
+</div>
+    </div>
+    
+    <form id="quizForm" class="form-horizontal" role="form" method=POST action="{{ url_for('students.PersonalQuestion') }}">
+			{{ form.hidden_tag() }}
+	  <div class="panel panel-info">
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+			        <div class="alert alert-danger">
+						{% for message in messages %}
+						{% if loop.index == 1 %}
+						<b>You have missed the following fields:</b>
+						{% endif %}
+						<ul><li><b>{{ message }}</b></li></ul>
+						{% endfor %}
+					</div>
+					{% endif %}
+				{% endwith %}
+    	 <div class="questions modal-content">
+    		<div class="modal-body">
+    			<!-- Question 1 -->
+				<h4><b>Gender<div id="asterisk"> *</div></b></h4>
+				{% for subfield in form.Gender %}
+					<tr>
+    				<td>{{ subfield(required="required") }}</td>
+    				<td>{{ subfield.label }}</td>
+					</tr>
+                    {% endfor %}
+                <hr />
+
+    			<!-- Question 2 -->
+    			<h4><b>Age<div id="asterisk"> *</div></b></h4>
+				{{ form.Age(class='form-control') }}
+    			<hr />
+
+    			<!-- Question 3 -->
+    			<h4><b>What year of school are you currently in?<div id="asterisk"> *</div></b></h4>
+				{{ form.Year(class='form-control') }}
+    			<hr />
+
+    			<!-- Question 4 -->
+				<h4><b>Are you a native English speaker?<div id="asterisk"> *</div></b></h4>
+				{{ form.NativeEnglishSpeaker(class='radio-inline') }}
+    			<hr />
+
+    			<!-- Question 5 -->
+				<h4><b>Would you say you are a morning or night person?<div id="asterisk"> *</div></b></h4>
+				{{ form.MorningOrNight(class='radio-inline') }}
+    			<hr />
+
+    			<!-- Question 6 -->
+    			<h4><b>Do you own a personal smartphone?<div id="asterisk"> *</div></b></h4>
+				{{ form.OwnSmartPhone(class='radio-inline') }}
+				
+				<hr />
+
+    			<!-- Question 7 -->
+				<h4><b>If no, do you have access to one at home?</b></h4>
+				{{ form.HaveSphoneAccess(class='form-control') }}
+                <hr />
+
+    			<!-- Question 8 -->
+				<h4><b>How many hours per day do you spend on a smartphone?<div id="asterisk"> *</div></b></h4>
+				{{ form.PhoneHours(class='form-control') }}
+    			<hr />
+
+    			<!-- Question 9 -->
+				<h4><b>What do you spend most of your time doing on a smartphone?</b></h4>
+				<p>(Press and hold CTRL to select Multiple)</p>
+				{{ form.PhoneActivity(class='form-control') }}
+				<hr />
+
+    			<!-- Question 10 -->
+    			<h4><b>Do you own a personal laptop/desktop PC?</b> <div id="asterisk"> *</div></h4>
+				{{ form.OwnPersonalComputer(class='radio-inline') }}
+				<hr />
+
+    			<!-- Question 11 -->
+				<h4><b>If no, do you have access to one at home?</b></h4>
+				{{ form.HaveComputerAccess(class='form-control') }}
+                <hr />
+
+    			<!-- Question 12 -->
+				<h4><b>How many hours per day do you spend on a laptop/PC?</b> <div id="asterisk"> *</div></h4>
+				{{ form.ComputerHours(class='form-control') }}
+    			<hr />
+
+    			<!-- Question 13 -->
+				<h4><b>What do you spend most of your time doing on a laptop/computer?</b></h4>
+				<p>(Press and hold CTRL to select Multiple)</p>
+				{{ form.ComputerActivity(class='form-control') }}
+				<hr />
+
+    			<!-- Question 14 -->
+    			<h4><b>Do you own a personal tablet?</b> <div id="asterisk"> *</div></h4>
+				{{ form.OwnTablet(class='radio-inline') }}
+				<hr />
+
+    			<!-- Question 15 -->
+    			<h4><b>How many hours per day do you spend on a tablet?</b> <div id="asterisk"> *</div></h4>
+				{{ form.TabletHours(class='form-control') }}
+				<hr />
+
+    			<!-- Question 16 -->
+				<h4><b>What do you spend most of your time doing on a tablet?</b></h4>
+				<p>(Press and hold CTRL to select Multiple)</p>
+				{{ form.TabletActivity(class='form-control') }}
+				<hr />
+
+    			<!-- Question 17 -->
+    			<h4><b>Have you had previous programming experience?</b> <div id="asterisk"> *</div></h4>
+				{{ form.ProgrammingExperience(class='radio-inline', required='required') }}
+				<hr />
+
+    			<!-- Question 18 -->
+				<h4><b>How much programming experience do you have?</b> <div id="asterisk"> *</div> </h4>
+				{{ form.ProgrammingExperienceTime(class='form-control') }}
+    			<hr />
+
+    			<!-- Question 19 -->
+				<h4><b>Which programming language/s have you used before?</b></h4>
+				<p>(Press and hold CTRL to select Multiple)</p>
+				{{ form.ProgrammingLanguages(class='form-control') }}
+    			<hr />
+
+    			<!-- Question 20 -->
+    			<h4><b>How often do you program?</b> <div id="asterisk"> *</div></h4>
+                <div style="text-align: center;">
+					{% for subfield in form.ProgramOften %}
+					<tr>
+    				<td>{{ subfield }}</td>
+    				<td>{{ subfield.label }}</td>
+					</tr>
+					{% endfor %}
+				</div>
+    			
+    			<hr />
+    			<!-- Question 21 -->
+    			<h4><b>If you have programmed before, how would you rate your programming level?</b><div id="asterisk"> *</div></h4>
+                <div style="text-align: center;">
+					{% for subfield in form.PersonalProgrammingProficiency %}
+					<tr>
+    				<td>{{ subfield }}</td>
+    				<td>{{ subfield.label }}</td>
+					</tr>
+					{% endfor %}
+                </div>
+    			
+    			<hr />
+
+    			<!-- Question 22 -->
+    			<h4><b>Have you ever done any website/app development?</b> <div id="asterisk"> *</div></h4>
+				{{ form.DoneWebOrAppDev(class='radio-inline') }}
+				<hr />
+
+    			<!-- Question 23 -->
+    			<h4><b>If yes, which of the following tools/technologies have you used?</b></h4>
+				{{ form.KnownTechnologies(class='form-control') }}
+				<hr />
+
+    			<!-- Question 24 -->
+				<h4><b>Have you ever heard of any of the following?</b></h4>
+				<p>(Press and hold CTRL to select Multiple)</p>
+				{{ form.ProgrammingSites(class='form-control') }}
+				<hr />
+
+    			<!-- Question 25 -->
+    			<h4><b>What level of maths did you take/are you taking for Junior Cert?</b> <div id="asterisk"> *</div></h4>
+				{{ form.JuniorCertLevel(class='radio-inline') }}
+				<hr />
+
+    			<!-- Question 26 -->
+    			<h4><b>Do either of your parents work in an IT related job?</b> <div id="asterisk"> *</div></h4>
+    			<h6>Examples include Software Developer, Systems administrator etc.</h6>
+				{{ form.ITParentOccupation(class='radio-inline') }}
+				<hr />
+
+				{{ form.Submit(class='btn btn-primary btn-block') }}
+			</div>
+		  </div>
+    	</div>
+    </form>
+</div>
+</div>
+</div>
+{% endblock %}
+

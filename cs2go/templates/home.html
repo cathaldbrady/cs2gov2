@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="static/css/main.css" />
+<link rel="stylesheet" href="static/css/home.css" />
+
+<header id="header">
+	<div class="inner">
+		<a style="font-size: 26px;" href="/" class="logo"><img src="/static/img/cs2GoIcon.png" style="width: 17.5%;">
+          &nbsp;&nbsp;CS2Go</a>
+		<div class="showHide">
+			<a data-toggle="modal" data-target="#registerModal">Sign Up</a>
+			<a href="/signIn">Sign in</a>
+		</div>
+
+		<nav id="nav">
+			<div id="asize">
+				<a href="/">Home</a>
+				<a href="{{ url_for('about') }}">About</a>
+				<a data-toggle="modal" data-target="#registerModal">Sign Up</a>
+				<a data-toggle="modal" data-target="#signInModal">Sign in</a>
+			</div>
+		</nav>
+	</div>
+</header>
+
+<section style="background-image: url('/static/img/homePage/csImage.jpg'); margin-top:-15px;" id="banner">
+	<h1 style="background-color: rgba(0, 0, 0, 0.4);">Welcome to Computer Science 2 Go</h1>
+	<p style="background-color: rgba(0, 0, 0, 0.4);">A free online learning platform designed with efficenty for maximum performance</p>
+</section>
+
+<section id="one" class="wrapper">
+	<div class="inner">
+		<div class="flex flex-3">
+			<article >
+				<header>
+					<h3>For students</h3>
+				</header>
+
+				<p>
+					Do you like solving problems? Designing and creating things? <br><br>
+					This course will help introduce you to the exciting world of Computer Science. Computers play a big part in all our lives, from the device you’re reading this on, to our transport, our schools and workplaces as well as our free time. <br><br>
+
+					From the <a href="http://www.spacex.com/" target="blank">Space X rocket project</a>, to the latest video games and special effects, to this picture of a <a href="http://endless.horse/" target="blank"> horse that never ends </a>. These were all designed and made in some part by Computer Scientists. <br><br>
+
+					This course will allow you to learn the basic skills and knowledge to get started on your own projects and ideas. You’ll learn programming, website design, cryptography and lots more! <br><br>
+
+					Sign up <a href="studentRegister">here</a> to get started!
+				</p>
+
+			</article>
+
+			<article>
+				<header>
+					<h3>For teachers</h3>
+				</header>
+
+				<p>
+					Computer Science is a subject that’s been around for many years now, ever since Alan Turing designed the first real computer during WWII and even back to the ancient Greeks. Even though this is true it has taken a long time to enter mainstream education. Thankfully this is changing and in Ireland it will now be a Leaving Certificate subject in the coming years as well as being introduced to the Junior Cycle as a short course. <br><br> 
+
+					There is a big desire from schools, students and administrative groups to see more students involved in Computer Science related courses as the demand for jobs continues to rise. As well as this programming and Computational Thinking are seen more and more as vital skills that should be taught to children. <br><br>
+
+					One of the main issues we’ve seen for teachers is a lack of training and resourcing, the passion and desire is there but the tools to put that enthusiasm to use hasn’t always been there. To help bridge that gap we have been working to develop a course which can allow you to introduce your students and schools to this exciting subject with little prior knowledge and with as little fuss as possible! <br>
+
+					<div id="parentDiv" style="display: none;">
+						You’ll find lesson plans, exercise sheets, PowerPoint slides, assessment tools and loads more on this website. The course is aimed at Transition Year students but it very flexible and can be used throughout secondary school and many classes will also suit upper primary school. <br><br>
+
+						The course is designed to be as flexible as possible to suit your timetable, knowledge and facilities. We are on hand to help tailor a program that suits you and to give you any additional support you might have. We also want to your input so if there’s any topics you think are missing or if you have resources you’ve used in the past that might benefit others we’ll incorporate them.
+					</div>
+					<br>
+					<input type="button" id="btnShow" value="See more">
+				</p>
+			</article>
+		</div>
+	</div>
+</section>
+
+<section id="two" class="wrapper style1 special" style="background-color: #140033">
+	<div class="inner">
+		<header>
+			<h2>WHAT WE DO</h2>
+		</header>
+
+		<div class="flex flex-4">
+
+			<div class="box person">
+				<div class="image round">
+					<img src="/static/img/homePage/ReadyToGo.png" alt="Person 1" />
+				</div>
+				<p>Everything you need to teach and assess the course is all here for you. Detailed lesson plans, exercise sheets, feedback forms and extra resources are provided for all topics. More content is being added all the time which we hope will be useful as different topics come up and interest both you and your students. </p>
+			</div>
+
+			<div class="box person">
+				<div class="image round">
+					<img src="/static/img/homePage/TeacherLed.png" alt="Person 1" />
+				</div>
+				<p>All of the lessons are designed to make your job easier, to help you introduce students to the exciting world of Computer Science. We welcome and need your input to both existing lessons as well as any future development. If you find resources that you think could supplement a lesson or you think a specific topic would be worth doing, then please let us know and we’ll add it to our list and include the resources in our lesson plans!</p>
+			</div>
+
+			<div class="box person">
+				<div class="image round">
+					<img src="/static/img/homePage/Customisable.png" alt="Person 1" />
+				</div>
+				<p>The course is broken into four large sections with all lessons being independent whilst being interconnected. We provide example structures and are happy to talk to you about your specific situation, but the aim is that the lessons can be used in whatever way suits you best. Choose different lessons and activities in those lessons based on your school, class and experience.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="three" class="wrapper special">
+	<div class="inner">
+		<header class="align-center">
+		</header>
+
+		<div class="flex flex-2">
+			<article>
+				<div class="image fit">
+					<img src="/static/img/homePage/ctc.jpg" alt="Pic 01" />
+				</div>
+
+				<header>
+					<h3>Compuational thinking</h3>
+				</header>
+
+				<p>
+					Computational Thinking is described as a "universally applicable attitude and skill set everyone, not just computer scientists, would be eager to learn and use" Many definitions of Computational Thinking agree and all touch on the truth of what it is. One of the first defines it as solving problems, designing systems, and understanding human behaviour, by drawing on the concepts fundamental to computer science. We see Computational Thinking as more than just a problem solving technique. It involves seeing a problem from multiple angles, using human creativity and the power of computers to create systems and solutions to real-life problems. One of the main aims of this course is to introduce students to this idea of Computational Thinking. This includes introducing them to ideas such as Algorithms, Decomposition, Abstraction and many more. Through fun, engaging and challenging activities students will use and develop these skills often without even realising it! As well as learning foundational Computer Science topics they will develop these cross-discipline skills which will help them in all walks of life. They’ll do this both individually, on computers, in teams and in interactive and hands-on ways!
+				</p>
+			</article>
+
+			<article>
+				<div class="image fit">
+					<img src="/static/img/homePage/csImage2.jpg" alt="Pic 02" />
+				</div>
+
+				<header>
+					<h3>Computer Science</h3>
+				</header>
+
+				<p>Computers have become a part of everybody’s daily life, and the study of them has become more and more popular. Computer Science isn’t just about programming, or fixing computers or designing websites, it’s about understanding how computer systems can work to solve real-world problems. The hope is that this course will introduce students to the exciting and wide-reaching subject that is Computer Science in a fun, engaging and impactful way. Students will learn key skills including programming and web development as well as seeing how Computer Science can help people in all kinds of unexpected ways.</p>
+			</article>
+		</div>
+	</div>
+</section>
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+	<div style="margin-top: 200px; width: 400px;" class="modal-dialog modal-sm">
+		<div style="height: 250px;" class="modal-content">
+			<div class="modal-header">
+				<h4 style="text-align: center;" class="modal-title" id="myModalLabel">Who Are You?</h4>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-6">
+						<button style="background-color: white;" type="button" onclick="window.location.href = '/teachers/create'">
+							<span style="font-size: 102px; color: #ff3333" class="glyphicon glyphicon-education"></span>
+							<br>
+							<h6>I am a teacher</h6>
+						</button>
+					</div>
+
+					<div class="col-xs-6">
+						<button style="background-color: white;" type="button" onclick="window.location.href = '/students/create'">
+							<span style="font-size: 102px; color: #4dff4d;" class="glyphicon glyphicon-user"></span>
+							<br>
+							<h6>I am a student</h6>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+	<div style="margin-top: 100px;" class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div style="margin-top: -80px;" class="modal-header">
+				<h4 style="margin-top: 80px;" class="modal-title" id="myModalLabel">Log In</h4>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-7">
+						<div class="well">
+							<form id="loginform" class="form-horizontal" role="form" method=POST action="{{ url_for('login') }}">
+								{{ form.csrf_token }}
+		
+								<h5><b>Username</b></h5>
+								<div style="margin-bottom:25px" class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+								{{ form.email(class='form-control') }}
+								</div>
+
+								<h5><b>Password</b></h5>
+								<div style="margin-bottom:25px" class="input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+								{{ form.password(class='form-control') }}
+								</div>
+								{{ form.submit(class='btn btn-primary btn-block') }}
+							</form>
+						</div> 
+					</div>
+
+					<div class="col-xs-5">
+		                <p class="lead">Register now</p>
+		                <ul class="list-unstyled" style="line-height: 2">
+		                	<li><span style="color: green" class="glyphicon glyphicon-ok"></span> Free and easy to use</li>
+		                	<li><span style="color: green" class="glyphicon glyphicon-ok"></span> Student-Centered/Active Learning</li>
+		                	<li><span style="color: green" class="glyphicon glyphicon-ok"></span> Multi-functional</li>
+		                	<li><span style="color: green" class="glyphicon glyphicon-ok"></span> Interactive</li>
+		                	<li><span style="color: green" class="glyphicon glyphicon-ok"></span> Helps personalize the classroom</li>
+		                </ul>
+
+		                <p>
+		                	<a id="btnModal" data-toggle="modal" data-dismiss="modal" data-target="#registerModal" class="btn btn-info btn-block">Yes please, register now!</a>
+		                </p>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var button = document.getElementById('btnShow');
+
+	btnShow.onclick = function() {
+    	var x = document.getElementById('parentDiv');
+    	if (x.style.display === "none") {
+    		button.value = "See less";
+    		x.style.display = "block";
+    	} else {
+    		button.value = "See more";
+    		x.style.display = "none";
+    	}
+    }
+</script>
+{% endblock %}

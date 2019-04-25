@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+{% block content %}
+<link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
+
+<style type="text/css">
+    label {
+        padding: 0 1em;
+        text-align: center;
+    }
+
+    #asterisk {
+        display: inline;
+        color: red;
+    }
+</style>
+
+<nav id="navbarColor" class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a style="float: right;" class="navbar-brand" href="{{ url_for('login') }}">
+          <img src="/static/img/cs2GoIcon.png" style="width: 17.5%; float: left;">
+          &nbsp;&nbsp;CS2Go
+        </a>
+        </div>
+
+        
+    </div>
+</nav>
+
+<div id="bebrasBackground" style="width: 100%; margin-top: -30px;">
+  <div style="width: 700px;" class="modal-dialog">
+  	<div class="container" style="width: 700px;">
+      <h3 style="color: black; float: left;">View of Computer Science</h3>
+
+      <div class="progress" style="width: 50%; float: right; margin-top: 23px;">
+    <div class="progress-bar" style="width: 60%">3/5</div>
+</div>
+    </div>
+    
+    <div id="results"></div>
+    <form id="quizForm" class="form-horizontal" role="form" method=POST action="{{ url_for('students.CSQuestion') }}">
+            {{ form.hidden_tag() }}
+            <div class="panel panel-info">
+                <!--This part will show the error messages-->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                    {% if loop.index == 1 %}
+                    <b>You have missed the following fields:</b>
+                    {% endif %}
+                    <ul><li><b>{{ message }}</b></li></ul>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+    	<div class="questions modal-content">
+    		<div class="modal-body">
+    			<!-- Question 1 -->
+    			<h4><b>Would you/have you considered studying Computer Science in college/university?<div id="asterisk"> *</div></b></h4>
+    			{% for subfield in form.StudyCSUni %}
+					<tr>
+    				<td>{{ subfield(required="required") }}</td>
+    				<td>{{ subfield.label }}</td>
+					</tr>
+                    {% endfor %}
+                    
+                <hr />
+
+    			<!-- Question 2 -->
+    			<h4><b>What do you think of when you hear Computer Science?<div id="asterisk"> *</div> </b></h4>
+                {{ form.ThinkOfCS(class='form-control') }}
+                <hr />
+
+    			<!-- Question 3 -->
+    			<h4><b>Is Computer Science interesting to you? <div id="asterisk"> *</div></b></h4>
+                {% for subfield in form.CSInteresting %}
+					<tr>
+    				<td>{{ subfield }}</td>
+    				<td>{{ subfield.label }}</td>
+					</tr>
+                    {% endfor %}
+                <hr />
+
+    			<!-- Question 4 -->
+    			<h4><b>If yes/no, why?</b></h4>
+                {{ form.CSInterestingWhy(class='form-control') }}
+                <hr />
+
+    			<!-- Question 5 -->
+    			<h4><b>Is Computer Science challenging?<div id="asterisk"> *</div></b></h4>
+                {% for subfield in form.CSChallenging %}
+					<tr>
+    				<td>{{ subfield }}</td>
+    				<td>{{ subfield.label }}</td>
+					</tr>
+                    {% endfor %}
+                <hr />
+
+    			<!-- Question 6 -->
+    			<h4><b>If yes/no, why?</b></h4>
+                {{ form.CSChallengingWhy(class='form-control') }}
+                <hr />
+
+    			<!-- Question 7 -->
+    			<h4><b>Using the internet is central in Computer Science<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                    Strongly Disagree 
+                    {% for subfield in form.InternetCentral %}
+					<tr>
+    				<td>{{ subfield }}</td>
+    				<td>{{ subfield.label }}</td>
+					</tr>
+                    {% endfor %} 
+                    Strongly agree
+                </div>
+    			<hr />
+
+    			<!-- Question 8 -->
+    			<h4><b>Using Word, Excel etc. is central in Computer Science<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                    Strongly Disagree
+                    {% for subfield in form.WordExcelCentral %}
+					<tr>
+    				<td>{{ subfield }}</td>
+    				<td>{{ subfield.label }}</td>
+					</tr>
+                    {% endfor %} 
+                    Strongly agree
+                </div>
+
+    			<hr />
+
+    			<!-- Question 9 -->
+    			<h4><b>Installing software (eg. Windows, iTunes) is central in Computer Science<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                        Strongly Disagree
+                        {% for subfield in form.InstallingCentral %}
+                        <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %} 
+                        Strongly agree
+                </div>
+
+    			<hr />
+
+    			<!-- Question 10 -->
+    			<h4><b>Programming is central in Computer Science<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                        Strongly Disagree
+                        {% for subfield in form.ProgrammingCentral %}
+                        <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %} 
+                        Strongly agree
+                </div>
+
+    			<hr />
+
+    			<!-- Question 11 -->
+    			<h4><b>Being able to solve different problems is central in Computer Science<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                        Strongly Disagree
+                        {% for subfield in form.SolvingProblemsCentral %}
+                        <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %} 
+                        Strongly agree
+                </div>
+
+    			<hr />
+
+    			<!-- Question 12 -->
+    			<h4><b>Computer Science is an area related to maths<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                        Strongly Disagree
+                        {% for subfield in form.RelatedToMaths %}
+                        <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %} 
+                        Strongly agree
+                </div>
+
+    			<hr />
+
+    			<!-- Question 13 -->
+    			<h4><b>A computer scientist should be good at working with others<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                        Strongly Disagree
+                        {% for subfield in form.WorkWithOthers %}
+                        <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %} 
+                        Strongly agree
+                </div>
+
+                <hr />
+
+    			<!-- Question 14 -->
+    			<h4><b>Boys/men are more likely to study Computer Science than girls/women<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                        Strongly Disagree
+                        {% for subfield in form.MenMoreLikely %}
+                        <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %} 
+                        Strongly agree
+                </div>
+
+    			<hr />
+
+    			<!-- Question 15 -->
+    			<h4><b>Work in Computer Science can be done without a computer<div id="asterisk"> *</div></b></h4>
+                <div style="text-align: center;">
+                        Strongly Disagree
+                        {% for subfield in form.DoneNoComputer %}
+                        <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %} 
+                        Strongly agree
+                </div>
+    			
+    			<hr />
+
+    			<!-- Question 16 -->
+    			<h4><b>Have you ever heard the term Computational Thinking?<div id="asterisk"> *</div></b></h4>
+                {% for subfield in form.HeardOfCompThinking %}
+                        <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %} 
+                <hr />
+    			<!-- Question 17 -->
+                <h4><b>If yes, what do you think it is/means?</b></h4>
+                {{ form.CompThinkingMeaning(class='form-control') }}
+                <hr />
+
+                {{ form.Submit(class='btn btn-primary btn-block') }}
+    		</div>
+    	</div>
+    </form>
+</div>
+{% endblock %}
+

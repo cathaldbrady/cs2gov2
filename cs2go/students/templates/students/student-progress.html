@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <nav id="navbarColor" class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navbar-collapse-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <script>  </script>
+                
+                
+
+                <a style="float: right;" class="navbar-brand" href="{{ url_for('teachers.profile') }}">
+                  <img src="/static/img/cs2GoIcon.png" style="width: 17.5%; float: left;">
+                  &nbsp;&nbsp;CS2Go
+                </a>
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{{ url_for('forums.questions') }}">
+                            <span class="glyphicon glyphicon-comment"></span>
+                        </a>
+                    </li>
+
+                    <li><a data-toggle="tooltip" title="View all files"
+                           href="{{ url_for('files.file_list') }}"><span
+                            class="glyphicon glyphicon-file"></span></a></li>
+                    <li><a data-toggle="tooltip" title="View students"
+                           href="{{ url_for('students.student_list') }}"><span
+                            class="glyphicon glyphicon-list" data-toggle="tooltip"
+                            data-original-title="Users"></span></a></li>
+
+                    <li id="dropdown1" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle"
+                           href="#">{{ user.name }} {{ user.surname }} <b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('profile_edit') }}"><i class="glyphicon glyphicon-cog"></i> Edit
+                                Profile</a></li>
+                            <li><a href="{{ url_for('files.upload') }}"><i class="glyphicon glyphicon-upload"></i>
+                                Upload Files</a>
+                            </li>
+                            <li><a href="{{ url_for('assignments.assignment_list') }}"><i
+                                    class="glyphicon glyphicon-list"></i> Assignments</a>
+                            </li>
+                            <li><a href="{{ url_for('files.file_list') }}"><i class="glyphicon glyphicon-file"></i>
+                                Files</a></li>
+                            <li><a href="{{ url_for('logout') }}"><i class="glyphicon glyphicon-log-out"></i> Log
+                                out</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a data-toggle="tooltip" title="Log out" href="{{ url_for('logout') }}"><i
+                            class="glyphicon glyphicon-log-out"></i></a></li>
+                </ul>
+
+                <div class="col-sm-3 col-md-3" style="float: right;">
+                    <form class="navbar-form" role="form" method='post' action="{{ url_for('files.search') }}">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search" id="searchBar"
+                                   placeholder="Search Files">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i
+                                        class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2><b><u>User</u></b></h2>
+            <h4>Student Name: {{ student.name }} {{ student.surname }}</h4>
+            <h4>UserId: {{ student.email }}</h4>
+        </div>
+
+        <div class="jumbotron">
+          <h2><b><u>Results:</u></b></h2>
+          <div class="container">           
+            <table class="table table-condensed">
+              
+              <thead>
+                <tr>
+                  <th>Bebras Test</th>
+                  <th>Result</th>
+                  <th></th>
+                </tr>
+              </thead>
+      
+              <tbody>
+                <tr>
+                  <td>Bebras Test 1</td>
+                  <td>{{bebras1.score}}
+                      {% if bebras1.score == 'N/A' %}
+                      {% else %}%
+                      {% endif %}
+                  </td>
+                  <td>
+                    <button data-toggle="modal" data-target="#largeModal" style="float: right;" class="btn btn-primary">
+                      <span style="color: white;" class="glyphicon glyphicon-info-sign"></span>&nbsp;See results
+                    </button> 
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Bebras Test 2</td>
+                  {% if bebras2.score is defined %}
+                  <td>{{bebras2.score}} %</td>
+                  {% else %}
+                  <td>N/A</td>
+                  {% endif %}
+                  <td>
+                    <button data-toggle="modal" data-target="#largeModalBebras2" style="float: right;" class="btn btn-primary">
+                      <span style="color: white;" class="glyphicon glyphicon-info-sign"></span>&nbsp;See results
+                    </button> 
+                  </td>
+                </tr>
+            
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <a href="{{ url_for('teachers.profile') }}">
+            <input class="btn btn-primary" type="button" value="Back to Users Page"/></a>
+    </div>
+
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+    
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Bebras 1 Test - {{student.name}} {{student.surname}}'s results:</h4>
+          </div>
+    
+          <div class="modal-body">
+            <div class="row">
+              
+              <div class="col-xs-4">
+                <div class="chart-container" style=" height:180px; width:198px">
+                  <canvas id="myChart"></canvas>
+                </div>
+    
+                <br><hr/>
+                <div class="chart-container" style=" height:180px; width:198px">
+                  <canvas id="myChart2"></canvas>
+                </div> 
+    
+              </div>
+    
+              <div class="col-xs-8">
+                <table style="font-size: 12px;" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Question</th>
+                      <th>Answers</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                    <tr>
+                      <td>Braclet</td>
+                      <td>{{ bebras1.braclet }}</td>
+                      <td>{% if bebras1.braclet == 'b' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Animation</td>
+                      <td>{{ bebras1.animation }}</td>
+                      <td>{% if bebras1.animation == 'bdcae' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Animal Competition</td>
+                      <td>{{ bebras1.animalcompetition }}</td>
+                      <td>{% if bebras1.animalcompetition == '6' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Cross Country</td>
+                      <td>{{ bebras1.crosscountry }}</td>
+                      <td>{% if bebras1.crosscountry == 'C. Mr Brown, Mrs Green, Mrs Pink' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Stack Computer</td>
+                      <td>{{ bebras1.stackcomputer }}</td>
+                      <td>{% if bebras1.stackcomputer == '4 8 3 + * 2' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Throw the Dice</td>
+                      <td>{{ bebras1.dicethrow }}</td>
+                      <td>{% if bebras1.dicethrow == 'c' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Drawing Stars</td>
+                      <td>{{ bebras1.drawingstars }}</td>
+                      <td>{% if bebras1.drawingstars == '10:4' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Beaver Lunch</td>
+                      <td>{{ bebras1.beaverlunch }}</td>
+                      <td>{% if bebras1.beaverlunch == 'd' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>You Won't Find It</td>
+                      <td>{{ bebras1.wontfind }}</td>
+                      <td>{% if bebras1.wontfind == 'FLOOD' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Bowl Factory</td>
+                      <td>{{ bebras1.bowlfactory }}</td>
+                      <td>{% if bebras1.bowlfactory == '4' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Fireworks</td>
+                      <td>{{ bebras1.fireworks }}</td>
+                      <td>{% if bebras1.fireworks == '4' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Kangaroo</td>
+                      <td>{{ bebras1.kangaroo }}</td>
+                      <td>{% if bebras1.kangaroo == 'I' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>Spies</td>
+                      <td>{{ bebras1.spies }}</td>
+                      <td>{% if bebras1.spies == '4' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+      </div>
+
+          <div class="modal fade" id="largeModalBebras2" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+            
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Bebras 2 Test - {{student.name}} {{student.surname}}'s results:</h4>
+                  </div>
+            
+                  <div class="modal-body">
+                    <div class="row">
+                      
+                      <div class="col-xs-4">
+                        <div class="chart-container" style=" height:180px; width:198px">
+                          <canvas id="myChart3"></canvas>
+                        </div>
+                        <br><hr/>
+                        <div class="chart-container" style=" height:180px; width:198px">
+                          <canvas id="myChart4"></canvas>
+                        </div>             
+                      </div>
+            
+                      <div class="col-xs-8">
+                        <table style="font-size: 12px;" class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Question</th>
+                              <th>Answers</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+            
+                          <tbody>
+                            <tr>
+                              <td>Bebras Painting</td>
+                              <td>{{ bebras2.bebraspainting }}</td>
+                              <td>
+                                {% if bebras2.bebraspainting == 'b' %}
+                                <span class="glyphicon glyphicon-ok"></span>
+            
+                                {% endif %}
+                              </td>
+                            </tr>
+            
+                            <tr>
+                              <td>Bottles</td>
+                              <td>{{ bebras2.bottles }}</td>
+                              <td>{% if bebras2.bottles == 'A. E D C B A' %}
+                                <span class="glyphicon glyphicon-ok"></span>
+                                {% endif %}
+                              </td>
+                            </tr>
+            
+                            <tr>
+                              <td>Party Guests</td>
+                              <td>{{ bebras2.partyguest }}</td>
+                              <td>{% if bebras2.partyguest == 'NotSure' %}
+                                <span class="glyphicon glyphicon-ok"></span>
+                                {% endif %}
+                              </td>
+                            </tr>
+            
+                            <tr>
+                              <td>Tube System</td>
+                              <td>{{ bebras2.tubesystem }}</td>
+                              <td>{% if bebras2.tubesystem == '3' %}<span class="glyphicon glyphicon-ok"></span>
+                                {% endif %}
+                              </td>
+                            </tr>
+            
+                            <tr>
+                              <td>Magic Potions</td>
+                              <td>{{ bebras2.magicpotions }}</td>
+                              <td>{% if bebras2.magicpotions == ' Beaker D' %}
+                                <span class="glyphicon glyphicon-ok"></span>
+                                {% endif %}
+                              </td>
+                            </tr>
+            
+                            <tr>
+                              <td>Concurrent Directions</td>
+                              <td>{{ bebras2.concurrentdirections }}</td>
+                              <td>{% if bebras2.concurrentdirections == 'B. N, E, E, S, E' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                            </tr>
+            
+                            <tr>
+                              <td>Secret Messages</td>
+                              <td>{{ bebras2.secretmessages }}</td>
+                              <td>{% if bebras2.secretmessages == 'B. OKIWILLBETHERE!' %}
+                                <span class="glyphicon glyphicon-ok"></span>
+                                {% endif %}
+                              </td>
+                            </tr>
+            
+                            <tr>
+                              <td>Triangles</td>
+                              <td>{{ bebras2.triangles }}</td>
+                              <td>{% if bebras2.triangles == 'b' %}
+                                <span class="glyphicon glyphicon-ok"></span>
+                                {% endif %}
+                              </td>
+                            </tr>
+            
+                            <tr>
+                              <td>Scanner Code</td>
+                              <td>{{ bebras2.scannercode }}</td>
+                              <td>{% if bebras2.scannercode == 'D' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                            </tr>
+            
+                            <tr>
+                              <td>The Game</td>
+                              <td>{{ bebras2.thegame }}</td>
+                              <td>{% if bebras2.thegame == '5.1' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                            </tr>
+            
+                            <tr>
+                              <td>B-Enigma</td>
+                              <td>{{ bebras2.benigma }}</td>
+                              <td>{% if bebras2.benigma == 'D. UOOOIP' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                            </tr>
+            
+                            <tr>
+                              <td>Theatre</td>
+                              <td>{{ bebras2.theatre }}</td>
+                              <td>{% if bebras2.theatre == 'NotSure' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                            </tr>
+            
+                            <tr>
+                              <td>Pirate Hunter</td>
+                              <td>{{ bebras2.piratehunters }}</td>
+                              <td>{% if bebras2.piratehunters == 'D. The police have no chance of winning' %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+            
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+    <script type="text/javascript">
+
+      console.log(5+5)
+      var ctx = document.getElementById('myChart').getContext('2d');
+    
+      var myDoughnutChart = new Chart(ctx, {
+        type: 'pie',
+    
+        data: {
+          datasets: [{
+            backgroundColor: ['#00e600', '#ff0000'],
+            hoverBackgroundColor: ['#009900', '#990000'],
+            data: [Math.round(({{ bebras1.score }}/100)*13), Math.round(((100-{{ bebras1.score }})/100)*13)]
+          }],
+    
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+        'Correct Answers',
+        'Wrong Answers'
+        ]
+      },
+      options: {
+      }
+    });
+    
+      var ctx1 = document.getElementById('myChart2').getContext('2d');
+    
+      var myDoughnutChart = new Chart(ctx1, {
+        type: 'doughnut',
+    
+        data: {
+          datasets: [{
+            backgroundColor: ['#00e600', '#ff0000'],
+            hoverBackgroundColor: ['#009900', '#990000'],
+            data: [Math.round(({{ bebras1.score }}/100)*13), Math.round(((100-{{ bebras1.score }})/100)*13)]
+          }],
+    
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+        'Correct Answers',
+        'Wrong Answers'
+        ]
+      },
+      options: {
+      }
+    });
+    
+      var ctx3 = document.getElementById('myChart3').getContext('2d');
+    
+      var myDoughnutChart = new Chart(ctx3, {
+        type: 'doughnut',
+    
+        data: {
+          datasets: [{
+            backgroundColor: ['#00e600', '#ff0000'],
+            hoverBackgroundColor: ['#009900', '#990000'],
+            data: [Math.round(({{ bebras2.score }}/100)*13), Math.round(((100-{{bebras2.score}})/100)*13)]
+          }],
+    
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+        'Correct Answers',
+        'Wrong Answers'
+        ]
+      },
+      options: {
+      }
+    });
+    
+      var ctx4 = document.getElementById('myChart4').getContext('2d');
+    
+      var myDoughnutChart = new Chart(ctx4, {
+        type: 'pie',
+    
+        data: {
+          datasets: [{
+            backgroundColor: ['#00e600', '#ff0000'],
+            hoverBackgroundColor: ['#009900', '#990000'],
+            data: [Math.round(({{ bebras2.score }}/100)*13), Math.round(((100-{{bebras2.score}})/100)*13)]
+          }],
+    
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+        'Correct Answers',
+        'Wrong Answers'
+        ]
+      },
+      options: {
+      }
+    });
+    
+    </script>
+    
+    
+
+{% endblock %}
